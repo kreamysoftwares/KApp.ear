@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/couponapp"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" destroy-method="close">
+        <property name="dataSource"><ref local="dataSource"/></property>
+    </bean>
+    <bean id="usersDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.kiss.dao.UsersDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="transactionDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.kiss.dao.TransactionDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="categoriesDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.kiss.dao.CategoriesDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- <bean id="testCategoryDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.zorba.dao.TestCategoryDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="labMasterDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.zorba.dao.LabMasterDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="testMasterDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.zorba.dao.TestMasterDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="screeningTestDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.zorba.dao.ScreeningTestDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="studiesDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.zorba.dao.StudiesDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="paymentHeadsDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.zorba.dao.PaymentHeadsDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="labTestMasterDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.zorba.dao.LabTestMasterDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="completeDetailsDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.zorba.dao.CompleteDetailsDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="resultRecordingMasterDAO" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager"><ref local="transactionManager"/></property>
+        <property name="target">
+            <bean class="com.zorba.dao.ResultRecordingMasterDAO">
+                <property name="dataSource"><ref local="dataSource"/></property>
+            </bean>
+        </property>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="*">PROPAGATION_REQUIRED</prop>
+            </props>
+        </property>
+    </bean>
+     -->
+</beans>

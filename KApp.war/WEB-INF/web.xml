@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+    <display-name>DR WebApp</display-name>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/application-context*.xml</param-value>
+    </context-param>
+    <context-param>
+            <param-name>dr</param-name>
+            <param-value>http://dr:8080/dr</param-value>
+      </context-param>
+    
+   
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+	
+	
+    <servlet>
+        <servlet-name>dwr-invoker</servlet-name>
+        <display-name>DWR Servlet</display-name>
+        <description>Direct Web Remoter Servlet</description>
+        <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>true</param-value>
+            <description>Do we startup in debug/test mode?</description>
+        </init-param>
+        <init-param>
+            <param-name>crossDomainSessionSecurity</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>allowScriptTagRemoting</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>-1</load-on-startup>
+    </servlet>
+	
+	
+
+   <!-- <servlet>
+        <servlet-name>dwr-invoker</servlet-name>
+        <display-name>DWR Servlet</display-name>
+        <description>Direct Web Remoter Servlet</description>
+        <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>true</param-value>
+            <description>Do we startup in debug/test mode?</description>
+        </init-param>  
+		<init-param>
+			<param-name>crossDomainSessionSecurity</param-name>
+			<param-value>false</param-value>
+		</init-param>		
+    </servlet>-->
+	
+    <servlet-mapping>
+        <servlet-name>dwr-invoker</servlet-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
+
+	<servlet>
+        <servlet-name>testServlet</servlet-name>
+        <servlet-class>com.testdr.filter.testServlet</servlet-class>       
+    </servlet>
+	<servlet-mapping>
+        <servlet-name>testServlet</servlet-name>
+        <url-pattern>/testServlet/*</url-pattern>
+    </servlet-mapping>
+
+	<servlet>
+        <servlet-name>rootServices</servlet-name>
+        <servlet-class>com.kiss.services.RootServices</servlet-class>       
+    </servlet>
+	<servlet-mapping>
+        <servlet-name>rootServices</servlet-name>
+        <url-pattern>/rootServices/*</url-pattern>
+    </servlet-mapping>
+	
+</web-app>
